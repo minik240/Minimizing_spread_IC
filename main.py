@@ -1,12 +1,18 @@
 ## The main.py file is the entry point for the application
 
-import cascades as CS
-import graph_generate as GG
-import visualize as VS
+import Independentcascade as CS
+import graph_generator as GG
+import visualizing as VS
+import random
+#random imported for edge weights
 
 def main():
     # Generate a graph
-    graph = GG.create_random_graph(50, 10, 0.3, 0.1, 0.2)
+    # n is the number of nodes (50)
+    # p is the probability of an edge within a block (0.3)
+    # w is the edge weight (removed for now)
+
+    graph = GG.create_random_graph(20, 0.3, 0.3)
     # Generate a cascade
     cascade = CS.independent_cascade_model(graph)
     # Visualize the graph and the cascade
@@ -14,4 +20,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
