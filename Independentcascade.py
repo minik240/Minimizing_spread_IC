@@ -6,6 +6,25 @@
 
 import random
 
+def independent_cascade_MARKOV(graph, initial_infected:list, num_simulations = 1) -> dict:
+    """
+    Simulates the independent cascade model a number of times on the given graph.
+    
+    Parameters:
+    graph (networkx.Graph): The input graph.
+    initial_infected (int): The initial infected node.
+    
+    Returns:
+    dict: a dictionary of nodes and their infection probabilities.
+    """
+    infection_probabilities = {node:0 for node in graph.nodes}
+
+    for i in range(num_simulations):
+        infected = independent_cascade_model(graph, initial_infected)
+        for node, time_step in infected:
+            infection_probabilities[node] += 1/num_simulations
+    return infection_probabilities
+ 
 def independent_cascade_model(graph, initial_infected):
     """
     Simulates the independent cascade model on the given graph.
