@@ -26,7 +26,7 @@ def main():
     pos = nx.spring_layout(graph)
 
     # Randomly select an initial infected node
-    initial_infected = [random.choice(list(graph.nodes))]
+    initial_infected = random.choice(list(graph.nodes))
 
     # Create a cascade for the original graph, that starts from the initial infected node
     original_cascade = CS.independent_cascade_model(graph, initial_infected)
