@@ -12,7 +12,7 @@ import random
 
 def main():
     # Generate a graph with infection probability
-    graph = GG.create_random_graph(44, 0.2, 0.1)
+    graph = GG.create_random_graph(40, 0.2, 0.1)
     graph1 = graph.copy()
     graph2 = graph.copy()
     graph3 = graph.copy()
@@ -39,6 +39,8 @@ def main():
     print("Infection probabilities for the original graph:")
     for node, prob in original_infection_probabilities.items():
         print(f"Node {node}: {prob:.4f}")
+    original_mean_infection_probability = sum(original_infection_probabilities.values()) / len(original_infection_probabilities)
+    print(f"Mean infection probability for the original graph: {original_mean_infection_probability:.4f}")
 
     # Apply the greedy algorithm to remove the highest degree nodes to create the updated graph
     degree_updatedgraph, removed_degree_nodes = greedy_remove_highest_degree_nodes(graph, k)
@@ -46,6 +48,8 @@ def main():
     print("Infection probabilities for the degree updated graph:")
     for node, prob in degree_updated_infection_probabilities.items():
         print(f"Node {node}: {prob:.4f}")
+    degree_mean_infection_probability = sum(degree_updated_infection_probabilities.values()) / len(degree_updated_infection_probabilities)
+    print(f"Mean infection probability for the degree updated graph: {degree_mean_infection_probability:.4f}")
     print(f"Removed nodes for nodedegree_editedgraph.gif are: {removed_degree_nodes}")
 
     # Apply the greedy algorithm to minimize the spread
@@ -54,6 +58,8 @@ def main():
     print("Infection probabilities for the minimized spread graph:")
     for node, prob in minimized_spread_infection_probabilities.items():
         print(f"Node {node}: {prob:.4f}")
+    minimized_spread_mean_infection_probability = sum(minimized_spread_infection_probabilities.values()) / len(minimized_spread_infection_probabilities)
+    print(f"Mean infection probability for the minimized spread graph: {minimized_spread_mean_infection_probability:.4f}")
     print(f"Removed nodes for minimizedspread_editedgraph.gif are: {removed_minimized_spread_nodes}")
 
     # Apply the greedy algorithm to remove the highest eigenvector centrality nodes
@@ -62,6 +68,8 @@ def main():
     print("Infection probabilities for the eigenvector updated graph:")
     for node, prob in eigenvector_updated_infection_probabilities.items():
         print(f"Node {node}: {prob:.4f}")
+    eigenvector_mean_infection_probability = sum(eigenvector_updated_infection_probabilities.values()) / len(eigenvector_updated_infection_probabilities)
+    print(f"Mean infection probability for the eigenvector updated graph: {eigenvector_mean_infection_probability:.4f}")
     print(f"Removed nodes for eigenvector_editedgraph.gif are: {removed_eigenvector_nodes}")
 
     # Apply the greedy algorithm to remove the highest Katz centrality nodes
@@ -70,7 +78,10 @@ def main():
     print("Infection probabilities for the Katz updated graph:")
     for node, prob in katz_updated_infection_probabilities.items():
         print(f"Node {node}: {prob:.4f}")
+    katz_mean_infection_probability = sum(katz_updated_infection_probabilities.values()) / len(katz_updated_infection_probabilities)
+    print(f"Mean infection probability for the Katz updated graph: {katz_mean_infection_probability:.4f}")
     print(f"Removed nodes for katz_editedgraph.gif are: {removed_katz_nodes}")
+
 
     # Check if the initial infected node is removed
     if initial_infected not in degree_updatedgraph.nodes:
