@@ -29,17 +29,3 @@ def greedy_remove_highest_katz_centrality_nodes(graph, k):
         removed_nodes.append(highest_centrality_node)
     
     return graph, removed_nodes
-
-"""def greedy_remove_highest_katz_centrality_nodes(graph, k):
-    for _ in range(k):
-        # Calculate and sort Katz-centralities
-        sorted_node_centralities = calculate_and_sort_katz_centrality(graph)
-        
-        if not sorted_node_centralities:
-            break
-        
-        # Remove the node with the highest Katz-centrality
-        highest_centrality_node = sorted_node_centralities[0][0]
-        graph.remove_node(highest_centrality_node)
-    
-    return graph"""
