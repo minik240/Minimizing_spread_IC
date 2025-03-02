@@ -29,17 +29,3 @@ def greedy_remove_highest_eigenvector_centrality_nodes(graph, k):
         removed_nodes.append(highest_centrality_node)
     
     return graph, removed_nodes
-
-"""def greedy_remove_highest_eigenvector_centrality_nodes(graph, k):
-    for _ in range(k):
-        # Calculate and sort Eigenvector centralities
-        sorted_node_centralities = calculate_and_sort_eigenvector_centrality(graph)
-        
-        if not sorted_node_centralities:
-            break
-        
-        # Remove the node with the highest Eigenvector centrality
-        highest_centrality_node = sorted_node_centralities[0][0]
-        graph.remove_node(highest_centrality_node)
-    
-    return graph"""
