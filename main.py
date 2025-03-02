@@ -13,7 +13,6 @@ from betweenness_centralities import greedy_remove_highest_betweenness_centralit
 from closeness_centralities import greedy_remove_highest_closeness_centrality_nodes 
 import networkx as nx
 import random
-import openpyxl
 
 def main():
     # Generate a graph with infection probability and copies for node removals
