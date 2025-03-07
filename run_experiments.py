@@ -24,7 +24,7 @@ p = 0.4
 q = 0.1
 w = 0.15
 nodes_to_remove = 2
-num_iterations = 30
+num_iterations = 10
 num_simulations = 10000
 
 # Results
@@ -152,7 +152,7 @@ for n, b in graph_size_params:
     betweenness_influence_std = sum([(x - betweenness_influence_mean)**2 for x in betweenness_influence_list])/len(betweenness_influence_list)
     closeness_influence_mean = sum(closeness_influence_list)/len(closeness_influence_list)
     closeness_influence_std = sum([(x - closeness_influence_mean)**2 for x in closeness_influence_list])/len(closeness_influence_list)
-    df = df.append({
+    new_row = pd.DataFrame({
         'n': n,
         'b': b,
         'raw_influence_mean': raw_influence_mean,
@@ -169,6 +169,7 @@ for n, b in graph_size_params:
         'betweenness_influence_std': betweenness_influence_std,
         'closeness_influence_mean': closeness_influence_mean,
         'closeness_influence_std': closeness_influence_std
-    }, ignore_index=True)
+    }, index=[0])
+    df = pd.concat([df, new_row])
 df.to_csv('./results/results.csv', index=False)
 ic(df)

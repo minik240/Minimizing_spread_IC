@@ -4,8 +4,8 @@ import networkx as nx
 
 def calculate_and_sort_katz_centrality(graph):
     # Calculate the Katz-centralities of nodes
-    katz_centrality = nx.katz_centrality(graph, max_iter=10000, tol=1e-6) # max_iter and tol are optional parameters
-
+    #katz_centrality = nx.katz_centrality(graph, max_iter=10000, tol=1e-6) # max_iter and tol are optional parameters
+    katz_centrality = nx.katz_centrality_numpy(graph)
     # Create a list of nodes with their Katz-centralities
     node_centralities = [(node, centrality) for node, centrality in katz_centrality.items()]
 
