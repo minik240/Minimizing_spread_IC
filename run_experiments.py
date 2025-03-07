@@ -46,6 +46,7 @@ for n, b in graph_size_params:
             initial_infected=initial_infected
         )
         raw_influence = sum(infection_probabilities.values())/len(infection_probabilities)
+        raw_influence_list.append(raw_influence)
         # Greedy Degree
         G_degree = G.copy()
         G_degree, d_nodes = greedy_remove_highest_degree_nodes(
