@@ -14,7 +14,7 @@ def calculate_and_sort_eigenvector_centrality(graph):
 
     return sorted_node_centralities
 
-def greedy_remove_highest_eigenvector_centrality_nodes(graph, k):
+def greedy_remove_highest_eigenvector_centrality_nodes(graph, k, initial_infected = None):
     removed_nodes = []
     for _ in range(k):
         # Calculate and sort eigenvector centralities
@@ -23,8 +23,8 @@ def greedy_remove_highest_eigenvector_centrality_nodes(graph, k):
         if not sorted_node_centralities:
             break
         
-        # Remove the node with the highest eigenvector centrality
-        highest_centrality_node = sorted_node_centralities[0][0]
+        # Remove the node with the highest eigenvector centrality that is not the initial infected node
+        highest_centrality_node = sorted_node_centralities[0][0] if sorted_node_centralities[0][0] != initial_infected else sorted_node_centralities[1][0]
         graph.remove_node(highest_centrality_node)
         removed_nodes.append(highest_centrality_node)
     

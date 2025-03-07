@@ -3,7 +3,7 @@
 
 import Independentcascade as CS
 
-def greedy_minimize_spread(graph, k, initial_infected):
+def greedy_minimize_spread(graph, k, initial_infected, number_of_simulations=20000):
     """
     Uses a greedy algorithm to remove k nodes from the graph to minimize spread.
     
@@ -35,10 +35,10 @@ def greedy_minimize_spread(graph, k, initial_infected):
                 continue
             
             # Simulate the cascading process
-            infected_nodes = CS.independent_cascade_model(temp_graph, initial_infected)
+            infection_probabilities = CS.independent_cascade_MARKOV(temp_graph, initial_infected,num_simulations=number_of_simulations)
             
             # Calculate the number of active nodes (nodes that turn blue)
-            spread = len(infected_nodes)
+            spread = sum(infection_probabilities[i] for i in infection_probabilities)
             
             # Update the node to remove if this node results in a smaller spread
             if spread < min_spread:

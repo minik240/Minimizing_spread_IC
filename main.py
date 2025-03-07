@@ -11,6 +11,7 @@ from betweenness_centralities import greedy_remove_highest_betweenness_centralit
 from closeness_centralities import greedy_remove_highest_closeness_centrality_nodes 
 import networkx as nx
 import random
+from icecream import ic
 
 def main():
     # Generate a graph with infection probability
@@ -63,7 +64,7 @@ def main():
     print(f"Removed nodes for nodedegree_editedgraph.gif are: {removed_degree_nodes}")"""
     
     #NEW Apply the greedy algorithm to remove the highest degree nodes
-    degree_updatedgraph, removed_degree_nodes = greedy_remove_highest_degree_nodes(graph1, k)
+    degree_updatedgraph, removed_degree_nodes = greedy_remove_highest_degree_nodes(graph1, k)    
     degree_updated_infection_probabilities = CS.independent_cascade_MARKOV(degree_updatedgraph, initial_infected)
     degree_mean_infection_probability = sum(degree_updated_infection_probabilities.values()) / len(degree_updated_infection_probabilities)
     print(f"Mean infection probability for the degree updated graph: {degree_mean_infection_probability:.4f}")

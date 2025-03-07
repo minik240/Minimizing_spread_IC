@@ -11,10 +11,12 @@ def calculate_and_sort_degrees(graph):
 
     return sorted_node_degrees
 
-def greedy_remove_highest_degree_nodes(graph, k):
+def greedy_remove_highest_degree_nodes(graph, k, initial_infected = None):
     removed_nodes = []
     for _ in range(k):
-        highest_degree_node = max(graph.degree, key=lambda x: x[1])[0]
+        ## Remove the node with the highest degree that is not the initial infected node
+        sorted_node_degrees = calculate_and_sort_degrees(graph)
+        highest_degree_node = sorted_node_degrees[0][0] if sorted_node_degrees[0][0] != initial_infected else sorted_node_degrees[1][0]
         graph.remove_node(highest_degree_node)
         removed_nodes.append(highest_degree_node)
     return graph, removed_nodes
