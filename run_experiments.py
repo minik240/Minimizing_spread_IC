@@ -1,9 +1,9 @@
 """ This file implements the empirical tests.
     The parameters are set in the beginning of the file and the results are printed in the end,
-    into a csv file. The graphs are generated and written. 
+    into an excel file. The graphs are generated and written. 
     The results will appear in ./results/ folder.
 """
-
+import os
 import graph_generator as GG
 import Independentcascade as CS
 import visualizing as VS
@@ -17,19 +17,39 @@ import networkx as nx
 import random
 from icecream import ic
 import pandas as pd
+import openpyxl
 
 # Parameters
 graph_size_params = [(20, 4), (40, 6) , (60, 8), (80, 10), (100, 12)]
+non_block_graph_sizes = [35, 55, 85]
+#p is the probability of edge between nodes in the same block
 p = 0.4
+# q is the probability of edge between nodes in different blocks
 q = 0.1
+# r is the probability of an edge when there are no blocks
+r = 0.2
+#w is the probability of a node being infected
 w = 0.15
 nodes_to_remove = 2
-num_iterations = 10
-num_simulations = 10000
+num_iterations = 30
+num_simulations = 800
+#Ensure the results directory exists
+os.makedirs('./results', exist_ok=True)
 
 # Results
-df = pd.DataFrame(columns=['n', 'b', 'raw_influence_mean', 'raw_influence_std', 'degree_influence_mean', 'degree_influence_std', 'eigenvector_influence_mean', 'eigenvector_influence_std', 'katz_influence_mean', 'katz_influence_std', 'influence_influence_mean', 'influence_influence_std', 'betweenness_influence_mean', 'betweenness_influence_std', 'closeness_influence_mean', 'closeness_influence_std'])
-for n, b in graph_size_params:
+#df = pd.DataFrame(columns=['n', 'b', 'raw_influence_mean', 'raw_influence_std', 'degree_influence_mean', 'degree_influence_std', 'eigenvector_influence_mean', 'eigenvector_influence_std', 'katz_influence_mean', 'katz_influence_std', 'influence_influence_mean', 'influence_influence_std', 'betweenness_influence_mean', 'betweenness_influence_std', 'closeness_influence_mean', 'closeness_influence_std'])
+
+#Create a new Excel workbook and shet
+workbook = openpyxl.Workbook()
+sheet = workbook.active
+sheet.title = 'Results'
+
+#Write the header row
+header = ['n', 'b', 'raw_influence_mean', 'raw_influence_std', 'degree_influence_mean', 'degree_influence_std', 'eigenvector_influence_mean', 'eigenvector_influence_std', 'katz_influence_mean', 'katz_influence_std', 'influence_influence_mean', 'influence_influence_std', 'betweenness_influence_mean', 'betweenness_influence_std', 'closeness_influence_mean', 'closeness_influence_std']
+sheet.append(header)
+
+#for n, b in graph_size_params:
+def run_experiment(G, n, b):
     raw_influence_list = []
     degree_influence_list = []
     eigenvector_influence_list = []
@@ -39,7 +59,7 @@ for n, b in graph_size_params:
     closeness_influence_list = []
     for _ in range(num_iterations):
         initial_infected = random.randint(0, n-1)
-        G = GG.create_sbm(n, b, p, q, w)
+        #G = GG.create_sbm(n, b, p, q, w)
         infection_probabilities = CS.independent_cascade_MARKOV(
             graph=G,
             num_simulations=num_simulations,
@@ -152,7 +172,27 @@ for n, b in graph_size_params:
     betweenness_influence_std = sum([(x - betweenness_influence_mean)**2 for x in betweenness_influence_list])/len(betweenness_influence_list)
     closeness_influence_mean = sum(closeness_influence_list)/len(closeness_influence_list)
     closeness_influence_std = sum([(x - closeness_influence_mean)**2 for x in closeness_influence_list])/len(closeness_influence_list)
-    new_row = pd.DataFrame({
+    new_row = [n,b,raw_influence_mean,raw_influence_std,degree_influence_mean,degree_influence_std,eigenvector_influence_mean,eigenvector_influence_std,katz_influence_mean,katz_influence_std,influence_influence_mean,influence_influence_std,betweenness_influence_mean,betweenness_influence_std,closeness_influence_mean,closeness_influence_std]
+    sheet.append(new_row)
+
+# Run experiments for block graphs
+for n, b in graph_size_params:
+    G = GG.create_sbm(n, b, p, q, w)
+    run_experiment(G, n, b)
+
+# Run experiments for non-block graphs
+for n in non_block_graph_sizes:
+    G = GG.create_random_graph(n, r, w)
+    run_experiment(G, n, None)
+
+#save the workbook
+workbook.save('./results/results.xlsx')
+ic(sheet)
+
+
+
+
+"""pd.DataFrame({
         'n': n,
         'b': b,
         'raw_influence_mean': raw_influence_mean,
@@ -171,5 +211,5 @@ for n, b in graph_size_params:
         'closeness_influence_std': closeness_influence_std
     }, index=[0])
     df = pd.concat([df, new_row])
-df.to_csv('./results/results.csv', index=False)
-ic(df)
+    
+    df.to_csv('./results/results.csv', index=False)"""
